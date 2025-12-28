@@ -1,0 +1,4 @@
+name: HardcoreSurvival
+version: '1.0.0'
+main: me.wolf0023.hardcoreSurvival.HardcoreSurvival
+api-version: '1.21'
