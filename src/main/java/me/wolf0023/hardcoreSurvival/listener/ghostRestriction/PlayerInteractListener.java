@@ -34,7 +34,19 @@ public class PlayerInteractListener implements Listener {
     private static final Set<Material> PROHIBITED_BLOCKS = EnumSet.of(
         Material.DECORATED_POT,
         Material.COMPOSTER,
-        Material.LECTERN
+        Material.LECTERN,
+        Material.OAK_SHELF,
+        Material.SPRUCE_SHELF,
+        Material.BIRCH_SHELF,
+        Material.JUNGLE_SHELF,
+        Material.ACACIA_SHELF,
+        Material.DARK_OAK_SHELF,
+        Material.MANGROVE_SHELF,
+        Material.CHERRY_SHELF,
+        Material.PALE_OAK_SHELF,
+        Material.BAMBOO_SHELF,
+        Material.CRIMSON_SHELF,
+        Material.WARPED_SHELF
     );
 
     /** コンストラクタ */
