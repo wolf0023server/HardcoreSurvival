@@ -29,29 +29,28 @@ public class PlayerManager {
     private final NamespacedKey hasReceivedKit;
 
     /** 初期参加キットの内容 */
-    private final ArrayList<ItemStack> initialKit;
+    private final ArrayList<ItemStack> initialKit = new ArrayList<>(
+        Arrays.asList(
+            new ItemStack(Material.STONE_AXE),
+            new ItemStack(Material.STONE_HOE),
+            new ItemStack(Material.STONE_PICKAXE),
+            new ItemStack(Material.STONE_SHOVEL),
+            new ItemStack(Material.STONE_SWORD),
+            new ItemStack(Material.LEATHER_HELMET),
+            new ItemStack(Material.LEATHER_CHESTPLATE),
+            new ItemStack(Material.LEATHER_LEGGINGS),
+            new ItemStack(Material.LEATHER_BOOTS),
+            new ItemStack(Material.BREAD, 32),
+            new ItemStack(Material.SPYGLASS)
+        )
+    );
+
 
     /** コンストラクタ */
     public PlayerManager(HardcoreSurvival plugin) {
         this.plugin = plugin;
         this.ghostModeKey = new NamespacedKey(plugin, "ghost_mode");
         this.hasReceivedKit = new NamespacedKey(plugin, "has_received_kit");
-
-        this.initialKit = new ArrayList<>(
-            Arrays.asList(
-                new ItemStack(Material.STONE_AXE),
-                new ItemStack(Material.STONE_HOE),
-                new ItemStack(Material.STONE_PICKAXE),
-                new ItemStack(Material.STONE_SHOVEL),
-                new ItemStack(Material.STONE_SWORD),
-                new ItemStack(Material.LEATHER_HELMET),
-                new ItemStack(Material.LEATHER_CHESTPLATE),
-                new ItemStack(Material.LEATHER_LEGGINGS),
-                new ItemStack(Material.LEATHER_BOOTS),
-                new ItemStack(Material.BREAD, 32),
-                new ItemStack(Material.SPYGLASS)
-            )
-        );
     }
 
     /**
@@ -119,7 +118,7 @@ public class PlayerManager {
         }
 
         // 初回参加キットの配布
-        for (ItemStack item : this.initialKit) {
+        for (ItemStack item : initialKit) {
             player.getInventory().addItem(item);
         }
         player.sendMessage("初回参加キットを受け取りました！");
