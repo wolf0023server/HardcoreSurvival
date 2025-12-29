@@ -32,7 +32,7 @@ public final class HardcoreSurvival extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new DeathListener(this, this.playerManager), this);
         // リスポーン時の観戦モード制約の適応
         Bukkit.getPluginManager().registerEvents(new RespawnListener(this, this.playerManager), this);
-        // プレイヤー参加時の観戦モード制約の適応
+        // プレイヤー参加時の観戦モード制約の適応 および 初回参加キットの配布
         Bukkit.getPluginManager().registerEvents(new JoinListener(this, this.playerManager), this);
     }
 }

@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 /**
  * プレイヤーの参加イベントを処理するリスナー
  * プレイヤーが参加した際に観戦モードの制約を適応する
+ * また、初回参加キットを配布する
  * @param plugin メインクラスのインスタンス
  * @param playerManager プレイヤーマネージャーのインスタンス
  */
@@ -42,5 +43,8 @@ public class JoinListener implements Listener {
             this.playerManager.applyGhostModeRestrictions(player);
             player.sendMessage("あなたは、現在観戦モードです。");
         }
+
+        // 初回参加キットを配布
+        this.playerManager.giveInitialKit(player);
     }
 }
