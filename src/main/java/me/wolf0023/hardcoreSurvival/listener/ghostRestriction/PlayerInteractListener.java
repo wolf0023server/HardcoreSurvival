@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
 
 import java.util.Set;
 import java.util.EnumSet;
@@ -102,14 +103,18 @@ public class PlayerInteractListener implements Listener {
     public void onPlayerInteractBlock(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Material blockType = event.getClickedBlock() != null ? event.getClickedBlock().getType() : null;
+        Action action = event.getAction();
 
         // ブロックが存在しない場合は処理を終了
         if (blockType == null) {
             return;
         }
 
+        // 右クリック(使用) の禁止
+        // ただし、ブロックへの設置もできなくなる
         if (this.playerManager.isPlayerInGhostMode(player)
-            && PROHIBITED_BLOCKS.contains(blockType)) {
+            && PROHIBITED_BLOCKS.contains(blockType)
+            && action == Action.RIGHT_CLICK_BLOCK) {
             event.setCancelled(true);
         }
     }
