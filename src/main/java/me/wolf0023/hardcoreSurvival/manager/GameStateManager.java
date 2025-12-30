@@ -49,7 +49,6 @@ public class GameStateManager {
      */
     public void applyGhostModeRestrictions(Player player) {
         player.setGameMode(GameMode.CREATIVE);
-        return;
     }
 
     /**
@@ -59,7 +58,6 @@ public class GameStateManager {
      */
     public void removeGhostModeRestrictions(Player player) {
         player.setGameMode(GameMode.SURVIVAL);
-        return;
     }
 
     /**
