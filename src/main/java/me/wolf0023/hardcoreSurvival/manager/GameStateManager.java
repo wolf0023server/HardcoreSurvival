@@ -92,7 +92,6 @@ public class GameStateManager {
 
             // 死亡者リストから削除
             this.gameStateRepository.removeDeadPlayer(player.getUniqueId());
-            MessageUtil.sendGhostModeDisabledMessage(player);
             return;
         }
 
@@ -105,7 +104,6 @@ public class GameStateManager {
 
         // 死亡者リストに追加
         this.gameStateRepository.addDeadPlayer(player.getUniqueId());
-        MessageUtil.sendGhostModeEnabledMessage(player);
     }
 
     /**
