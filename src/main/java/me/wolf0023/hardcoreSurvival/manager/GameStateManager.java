@@ -43,6 +43,25 @@ public class GameStateManager {
     }
 
     /**
+     * 観戦モードの適応を除外するかどうかを判定する
+     * @param player 対象のプレイヤー
+     * @return 除外する場合はtrue、そうでなければfalse
+     */
+    public boolean isExemptFromGhostMode(Player player) {
+        // ゲームフェーズがFREEの場合は観戦モードの適応を除外する
+        if (this.isGamePhase(GamePhase.FREE)) {
+            return true;
+        }
+
+        // OP権限を持っている場合は観戦モードの適応を除外する
+        if (player.isOp()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * 観戦モードの制約を適用する
      * ただし、観戦モードかどうかの判定は行わない
      * @param player 対象のプレイヤー
@@ -76,8 +95,8 @@ public class GameStateManager {
             return;
         }
 
-        // ゲームフェーズがFREEの場合は観戦モードは適用しない
-        if (this.isGamePhase(GamePhase.FREE)) {
+        // 観戦モードの除外
+        if (this.isExemptFromGhostMode(player)) {
             return;
         }
 
@@ -95,8 +114,8 @@ public class GameStateManager {
      * @return 観戦モードであればtrue、そうでなければfalse
      */
     public boolean isPlayerInGhostMode(Player player) {
-        // ゲームフェーズがFREEの場合は常にfalseを返す
-        if (this.isGamePhase(GamePhase.FREE)) {
+        // 観戦モードの除外
+        if (this.isExemptFromGhostMode(player)) {
             return false;
         }
 
