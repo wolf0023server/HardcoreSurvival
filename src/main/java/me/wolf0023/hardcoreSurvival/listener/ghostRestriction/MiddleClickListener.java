@@ -10,7 +10,8 @@ import io.papermc.paper.event.player.PlayerPickEntityEvent;
 
 /**
  * プレイヤーのホイールクリック時のイベントを処理するリスナー
- * 観戦モードのプレイヤーがホイールクリックで、ブロックやエンティティを選択できないようにする
+ * 観戦モードのプレイヤーがホイールクリックで、
+ * データを持つブロックやエンティティを選択できないようにする
  * @param gameStateManager ゲーム状態管理クラスのインスタンス
  */
 public class MiddleClickListener implements Listener {
@@ -24,11 +25,18 @@ public class MiddleClickListener implements Listener {
     }
 
     /**
-     * プレイヤーがホイールクリックでブロックを選択するイベントを処理する
+     * プレイヤーがホイールクリックでデータを持つブロックを選択するイベントを処理する
      * @param event プレイヤーがホイールクリックでブロックを選択するイベント
      */
     @EventHandler
     public void onPlayerPickBlock(PlayerPickBlockEvent event) {
+        boolean isIncludeData = event.isIncludeData();
+
+        if (!isIncludeData) {
+            // データを含まない場合は処理しない
+            return;
+        }
+
         Player player = event.getPlayer();
 
         // プレイヤーが観戦モードの場合、ホイールクリックでのブロック選択をキャンセルする
@@ -38,11 +46,18 @@ public class MiddleClickListener implements Listener {
     }
 
     /**
-     * プレイヤーがホイールクリックでエンティティを選択するイベントを処理する
+     * プレイヤーがホイールクリックでデータを持つエンティティを選択するイベントを処理する
      * @param event プレイヤーがホイールクリックでエンティティを選択するイベント
      */
     @EventHandler
     public void onPlayerPickEntity(PlayerPickEntityEvent event) {
+        boolean isIncludeData = event.isIncludeData();
+
+        if (!isIncludeData) {
+            // データを含まない場合は処理しない
+            return;
+        }
+
         Player player = event.getPlayer();
 
         // プレイヤーが観戦モードの場合、ホイールクリックでのエンティティ選択をキャンセルする
