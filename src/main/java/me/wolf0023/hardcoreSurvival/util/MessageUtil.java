@@ -128,7 +128,9 @@ public class MessageUtil {
      */
     public static void broadcastGameStartMessage(Server server) {
         String message = "&6[Broadcast] &f&lゲームが開始されました！";
+        String message2 = "&6[Broadcast] &f&l`/kit` で初回参加キットを受け取れます！";
         broadcastMessage(server, message);
+        broadcastMessage(server, message2);
     }
 
     /**
