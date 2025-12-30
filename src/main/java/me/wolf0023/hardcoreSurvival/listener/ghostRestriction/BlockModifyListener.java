@@ -29,6 +29,7 @@ public class BlockModifyListener implements Listener {
         Material.BARRIER,
         Material.STRUCTURE_VOID,
         Material.END_PORTAL,
+        Material.END_PORTAL_FRAME,
         Material.OBSIDIAN,
         Material.CRYING_OBSIDIAN,
         Material.TNT,
