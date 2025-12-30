@@ -126,5 +126,21 @@ public class BlockModifyListener implements Listener {
             event.setCancelled(true);
         }
     }
+
+    /**
+     * データを持つブロックの設置を処理する
+     * @param event プレイヤーがブロックを設置する時のイベント
+     */
+    @EventHandler
+    public void onDataBlockPlace(BlockPlaceEvent event) {
+        Player player = event.getPlayer();
+        boolean isIncludeData = event.getItemInHand().hasItemMeta();
+
+        // プレイヤーが観戦モードの場合、データを持つブロックの設置をキャンセルする
+        if (isIncludeData
+            && this.gameStateManager.isPlayerInGhostMode(player)) {
+            event.setCancelled(true);
+        }
+    }
 }
 
