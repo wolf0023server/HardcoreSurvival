@@ -3,6 +3,7 @@ package me.wolf0023.hardcoreSurvival;
 import me.wolf0023.hardcoreSurvival.listener.*;
 import me.wolf0023.hardcoreSurvival.listener.ghostRestriction.*;
 import me.wolf0023.hardcoreSurvival.manager.PlayerManager;
+import me.wolf0023.hardcoreSurvival.repository.GameStateRepository;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,11 +11,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class HardcoreSurvival extends JavaPlugin {
 
     /** プレイヤー管理 */
-    private final PlayerManager playerManager = new PlayerManager(this);
+    private PlayerManager playerManager;
+
+    /** ゲーム状態リポジトリ */
+    private GameStateRepository gameStateRepository;
 
     @Override
     public void onEnable() {
         getLogger().info("HardcoreSurvival has been enabled!");
+
+        // マネージャーとリポジトリの初期化
+        this.gameStateRepository = new GameStateRepository(this);
+        this.playerManager = new PlayerManager(gameStateRepository);
 
         // イベントリスナーの登録
         this.registerEvents();

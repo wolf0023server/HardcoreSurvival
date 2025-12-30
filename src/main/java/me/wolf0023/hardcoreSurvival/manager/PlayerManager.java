@@ -1,11 +1,9 @@
 package me.wolf0023.hardcoreSurvival.manager;
 
-import me.wolf0023.hardcoreSurvival.HardcoreSurvival;
+import me.wolf0023.hardcoreSurvival.repository.GameStateRepository;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.NamespacedKey;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 
@@ -15,18 +13,11 @@ import java.util.Arrays;
 /**
  * プレイヤーを管理するクラス
  * 観戦モードの切り替えや、状態の保存などを担当する
- * @param plugin メインクラスのインスタンス
  */
 public class PlayerManager {
 
-    /** メインクラスのインスタンス */
-    private final HardcoreSurvival plugin;
-
-    /** 観戦モードのPDCキー */
-    private final NamespacedKey ghostModeKey;
-
-    /** 初期参加キット受取済みのPDCキー */
-    private final NamespacedKey hasReceivedKit;
+    /** ゲーム状態リポジトリ */
+    private final GameStateRepository gameStateRepository;
 
     /** 初期参加キットの内容 */
     private final ArrayList<ItemStack> initialKit = new ArrayList<>(
@@ -47,10 +38,8 @@ public class PlayerManager {
 
 
     /** コンストラクタ */
-    public PlayerManager(HardcoreSurvival plugin) {
-        this.plugin = plugin;
-        this.ghostModeKey = new NamespacedKey(plugin, "ghost_mode");
-        this.hasReceivedKit = new NamespacedKey(plugin, "has_received_kit");
+    public PlayerManager(GameStateRepository gameStateRepository) {
+        this.gameStateRepository = gameStateRepository;
     }
 
     /**
@@ -83,16 +72,16 @@ public class PlayerManager {
         if (!isGhost) {
             this.removeGhostModeRestrictions(player);
 
-            // PDCから観戦モードの情報を削除
-            player.getPersistentDataContainer().remove(ghostModeKey);
+            // 死亡者リストから削除
+            this.gameStateRepository.removeDeadPlayer(player.getUniqueId());
             player.sendMessage("観戦モードが解除されました！");
             return;
         }
 
         this.applyGhostModeRestrictions(player);
 
-        // PDCに観戦モードの情報を保存
-        player.getPersistentDataContainer().set(ghostModeKey, PersistentDataType.BOOLEAN, true);
+        // 死亡者リストに追加
+        this.gameStateRepository.addDeadPlayer(player.getUniqueId());
         player.sendMessage("観戦モードになりました！");
     }
 
@@ -102,8 +91,7 @@ public class PlayerManager {
      * @return 観戦モードであればtrue、そうでなければfalse
      */
     public boolean isPlayerInGhostMode(Player player) {
-        Boolean isGhost = player.getPersistentDataContainer().get(ghostModeKey, PersistentDataType.BOOLEAN);
-        return isGhost != null && isGhost;
+        return this.gameStateRepository.isPlayerDead(player.getUniqueId());
     }
 
     /**
@@ -123,8 +111,8 @@ public class PlayerManager {
         }
         player.sendMessage("初回参加キットを受け取りました！");
 
-        // PDCに受取済みの情報を保存
-        player.getPersistentDataContainer().set(hasReceivedKit, PersistentDataType.BOOLEAN, true);
+        // 受取済みリストに追加
+        this.gameStateRepository.addReceivedInitialKit(player.getUniqueId());
     }
 
     /**
@@ -133,7 +121,6 @@ public class PlayerManager {
      * @return 受け取っていればtrue、そうでなければfalse
      */
     public boolean hasPlayerReceivedInitialKit(Player player) {
-        Boolean hasReceived = player.getPersistentDataContainer().get(hasReceivedKit, PersistentDataType.BOOLEAN);
-        return hasReceived != null && hasReceived;
+        return this.gameStateRepository.hasPlayerReceivedInitialKit(player.getUniqueId());
     }
 }
