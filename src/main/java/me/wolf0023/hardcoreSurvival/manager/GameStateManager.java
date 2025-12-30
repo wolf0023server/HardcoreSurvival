@@ -1,6 +1,7 @@
 package me.wolf0023.hardcoreSurvival.manager;
 
 import me.wolf0023.hardcoreSurvival.repository.GameStateRepository;
+import me.wolf0023.hardcoreSurvival.util.MessageUtil;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -91,7 +92,7 @@ public class GameStateManager {
 
             // 死亡者リストから削除
             this.gameStateRepository.removeDeadPlayer(player.getUniqueId());
-            player.sendMessage("観戦モードが解除されました！");
+            MessageUtil.sendGhostModeDisabledMessage(player);
             return;
         }
 
@@ -104,7 +105,7 @@ public class GameStateManager {
 
         // 死亡者リストに追加
         this.gameStateRepository.addDeadPlayer(player.getUniqueId());
-        player.sendMessage("観戦モードになりました！");
+        MessageUtil.sendGhostModeEnabledMessage(player);
     }
 
     /**
@@ -137,7 +138,7 @@ public class GameStateManager {
         for (ItemStack item : initialKit) {
             player.getInventory().addItem(item);
         }
-        player.sendMessage("初回参加キットを受け取りました！");
+        MessageUtil.sendFirstJoinKitMessage(player);
 
         // 受取済みリストに追加
         this.gameStateRepository.addReceivedInitialKit(player.getUniqueId());
@@ -162,14 +163,37 @@ public class GameStateManager {
     }
 
     /**
-     * ゲームフェーズを設定する
-     * @param gamePhase 設定するゲームフェーズ
+     * ゲームを開始する
+     * @return 開始に成功した場合はtrue、既に開始している場合はfalse
      */
-    public void setGamePhase(GamePhase gamePhase) {
-        this.gameStateRepository.setGamePhase(gamePhase);
+    public boolean startGame() {
+        // 既にゲームが開始している場合は何もしない
+        if (this.isGamePhase(GamePhase.HARDCORE)) {
+            return false;
+        }
+        this.resetGame(); // ゲーム開始前に状態をリセットする
+        this.gameStateRepository.setGamePhase(GamePhase.HARDCORE);
+        return true;
     }
 
-    /** ゲームをリセットする */
+    /**
+     * ゲームを終了する
+     * @return 終了に成功した場合はtrue、既に終了している場合はfalse
+     */
+    public boolean endGame(boolean force) {
+        // 既にゲームが終了している場合は何もしない
+        if (this.isGamePhase(GamePhase.FREE)) {
+            return false;
+        }
+
+        this.gameStateRepository.setGamePhase(GamePhase.FREE);
+        return true;
+    }
+
+
+    /**
+     * ゲームをリセットする
+     */
     public void resetGame() {
         this.gameStateRepository.resetGameState();
     }
