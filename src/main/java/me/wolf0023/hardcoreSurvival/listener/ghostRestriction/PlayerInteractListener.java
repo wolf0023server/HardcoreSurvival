@@ -89,9 +89,15 @@ public class PlayerInteractListener implements Listener {
     public void onPlayerUseSpawnEgg(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Material itemType = event.getItem() != null ? event.getItem().getType() : null;
+        Action action = event.getAction();
 
         // アイテムが存在しない場合は処理を終了
         if (itemType == null) {
+            return;
+        }
+
+        // アイテムを持った状態でのブロックの破壊は許可する
+        if (action == Action.LEFT_CLICK_BLOCK) {
             return;
         }
 
