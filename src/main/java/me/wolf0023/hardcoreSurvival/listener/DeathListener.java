@@ -32,12 +32,12 @@ public class DeathListener implements Listener {
         // プレイヤーを観戦モードに設定
         Player player = event.getEntity();
 
-        // すでに観戦モードの場合は何もしない
-        if (this.gameStateManager.isPlayerInGhostMode(player)) {
-            return;
-        }
+        // プレイヤーが既に観戦モードかどうかのチェックは、内部で行う
+        boolean isInGhostMode = this.gameStateManager.addGhostMode(player);
 
-        gameStateManager.setGhostMode(player, true);
-        MessageUtil.sendGhostModeEnabledMessage(player);
+        // 観戦モードに切り替わった場合のみ、メッセージを送信
+        if (isInGhostMode) {
+            MessageUtil.sendGhostModeEnabledMessage(player);
+        }
     }
 }
