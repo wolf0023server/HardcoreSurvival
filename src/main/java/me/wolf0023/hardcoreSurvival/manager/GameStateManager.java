@@ -180,7 +180,7 @@ public class GameStateManager {
      * ゲームを終了する
      * @return 終了に成功した場合はtrue、既に終了している場合はfalse
      */
-    public boolean endGame(boolean force) {
+    public boolean endGame() {
         // 既にゲームが終了している場合は何もしない
         if (this.isGamePhase(GamePhase.FREE)) {
             return false;
