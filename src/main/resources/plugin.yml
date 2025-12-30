@@ -2,3 +2,5 @@ name: HardcoreSurvival
 version: '1.0.0'
 main: me.wolf0023.hardcoreSurvival.HardcoreSurvival
 api-version: '1.21'
+author: wolf0023
+description: お正月イベント用。ハードコアサバイバル。
