@@ -1,7 +1,6 @@
 package me.wolf0023.hardcoreSurvival.listener;
 
-import me.wolf0023.hardcoreSurvival.HardcoreSurvival;
-import me.wolf0023.hardcoreSurvival.manager.PlayerManager;
+import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,21 +12,16 @@ import org.bukkit.entity.Player;
  * プレイヤーの参加イベントを処理するリスナー
  * プレイヤーが参加した際に観戦モードの制約を適応する
  * また、初回参加キットを配布する
- * @param plugin メインクラスのインスタンス
- * @param playerManager プレイヤーマネージャーのインスタンス
+ * @param gameStateManager ゲーム状態管理のインスタンス
  */
 public class JoinListener implements Listener {
 
-    /** メインクラスのインスタンス */
-    private final HardcoreSurvival plugin;
-
-    /** プレイヤーマネージャーのインスタンス */
-    private final PlayerManager playerManager;
+    /** ゲーム状態管理のインスタンス */
+    private final GameStateManager gameStateManager;
 
     /** コンストラクタ */
-    public JoinListener(HardcoreSurvival plugin, PlayerManager playerManager) {
-        this.plugin = plugin;
-        this.playerManager = playerManager;
+    public JoinListener(GameStateManager gameStateManager) {
+        this.gameStateManager = gameStateManager;
     }
 
     /**
@@ -39,12 +33,12 @@ public class JoinListener implements Listener {
         Player player = event.getPlayer();
 
         // プレイヤーが観戦モードの場合、制約を適応する
-        if (this.playerManager.isPlayerInGhostMode(player)) {
-            this.playerManager.applyGhostModeRestrictions(player);
+        if (this.gameStateManager.isPlayerInGhostMode(player)) {
+            this.gameStateManager.applyGhostModeRestrictions(player);
             player.sendMessage("あなたは、現在観戦モードです。");
         }
 
         // 初回参加キットを配布
-        this.playerManager.giveInitialKit(player);
+        this.gameStateManager.giveInitialKit(player);
     }
 }

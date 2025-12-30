@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * プレイヤーを管理するクラス
+ * ゲーム状態管理クラス
  * 観戦モードの切り替えや、状態の保存などを担当する
  */
-public class PlayerManager {
+public class GameStateManager {
 
     /** ゲーム状態リポジトリ */
     private final GameStateRepository gameStateRepository;
@@ -38,7 +38,7 @@ public class PlayerManager {
 
 
     /** コンストラクタ */
-    public PlayerManager(GameStateRepository gameStateRepository) {
+    public GameStateManager(GameStateRepository gameStateRepository) {
         this.gameStateRepository = gameStateRepository;
     }
 
@@ -78,6 +78,11 @@ public class PlayerManager {
             return;
         }
 
+        // ゲームフェーズがFREEの場合は観戦モードは適用しない
+        if (this.isGamePhase(GamePhase.FREE)) {
+            return;
+        }
+
         this.applyGhostModeRestrictions(player);
 
         // 死亡者リストに追加
@@ -87,10 +92,16 @@ public class PlayerManager {
 
     /**
      * プレイヤーが観戦モードかどうかを判定する
+     * ただし、FREEフェーズの場合は常にfalseを返す
      * @param player 対象のプレイヤー
      * @return 観戦モードであればtrue、そうでなければfalse
      */
     public boolean isPlayerInGhostMode(Player player) {
+        // ゲームフェーズがFREEの場合は常にfalseを返す
+        if (this.isGamePhase(GamePhase.FREE)) {
+            return false;
+        }
+
         return this.gameStateRepository.isPlayerDead(player.getUniqueId());
     }
 
@@ -122,5 +133,27 @@ public class PlayerManager {
      */
     public boolean hasPlayerReceivedInitialKit(Player player) {
         return this.gameStateRepository.hasPlayerReceivedInitialKit(player.getUniqueId());
+    }
+
+    /**
+     * ゲームフェーズが入力されたフェーズかどうかを判定する
+     * @param gamePhase 判定するゲームフェーズ
+     * @return 一致していればtrue、そうでなければfalse
+     */
+    public boolean isGamePhase(GamePhase gamePhase) {
+        return this.gameStateRepository.getGamePhase() == gamePhase;
+    }
+
+    /**
+     * ゲームフェーズを設定する
+     * @param gamePhase 設定するゲームフェーズ
+     */
+    public void setGamePhase(GamePhase gamePhase) {
+        this.gameStateRepository.setGamePhase(gamePhase);
+    }
+
+    /** ゲームをリセットする */
+    public void resetGame() {
+        this.gameStateRepository.resetGameState();
     }
 }

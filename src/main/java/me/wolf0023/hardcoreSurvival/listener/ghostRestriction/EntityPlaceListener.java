@@ -1,6 +1,6 @@
 package me.wolf0023.hardcoreSurvival.listener.ghostRestriction;
 
-import me.wolf0023.hardcoreSurvival.manager.PlayerManager;
+import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,11 +16,12 @@ import java.util.EnumSet;
 /**
  * エンティティ設置制限リスナー
  * 観戦モードのプレイヤーがエンティティを設置できないようにする
+ * @param gameStateManager ゲーム状態管理クラスのインスタンス
  */
 public class EntityPlaceListener implements Listener {
 
-    /** プレイヤーマネージャーのインスタンス */
-    private final PlayerManager playerManager;
+    /** ゲーム状態管理のインスタンス */
+    private final GameStateManager gameStateManager;
 
     /** 設置を禁止するエンティティのリスト */
     private static final Set<EntityType> PLACEMENT_BANNED_ENTITIES = EnumSet.of(
@@ -39,8 +40,8 @@ public class EntityPlaceListener implements Listener {
     );
 
     /** コンストラクタ */
-    public EntityPlaceListener(PlayerManager playerManager) {
-        this.playerManager = playerManager;
+    public EntityPlaceListener(GameStateManager gameStateManager) {
+        this.gameStateManager = gameStateManager;
     }
 
     /**
@@ -52,7 +53,7 @@ public class EntityPlaceListener implements Listener {
         Player player = event.getPlayer();
         EntityType entityType = event.getEntityType();
 
-        if (this.playerManager.isPlayerInGhostMode(player)
+        if (this.gameStateManager.isPlayerInGhostMode(player)
             && PLACEMENT_BANNED_ENTITIES.contains(entityType)) {
             event.setCancelled(true);
         }
@@ -73,7 +74,7 @@ public class EntityPlaceListener implements Listener {
         }
 
         // 額縁などへ設置を制限
-        if (this.playerManager.isPlayerInGhostMode(player)
+        if (this.gameStateManager.isPlayerInGhostMode(player)
             && INTERACTION_PROTECTED_ENTITIES.contains(entityType)) {
             event.setCancelled(true);
         }
@@ -87,7 +88,7 @@ public class EntityPlaceListener implements Listener {
     public void onPlayerArmorStandManipulate(PlayerArmorStandManipulateEvent event) {
         Player player = event.getPlayer();
 
-        if (this.playerManager.isPlayerInGhostMode(player)) {
+        if (this.gameStateManager.isPlayerInGhostMode(player)) {
             event.setCancelled(true);
         }
     }

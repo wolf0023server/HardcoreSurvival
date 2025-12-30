@@ -1,7 +1,6 @@
 package me.wolf0023.hardcoreSurvival.listener;
 
-import me.wolf0023.hardcoreSurvival.HardcoreSurvival;
-import me.wolf0023.hardcoreSurvival.manager.PlayerManager;
+import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,21 +10,16 @@ import org.bukkit.entity.Player;
 /**
  * プレイヤーの死亡イベントを処理するリスナー
  * プレイヤーが死亡した際に観戦モードに切り替える
- * @param plugin メインクラスのインスタンス
- * @param playerManager プレイヤーマネージャーのインスタンス
+ * @param gameStateManager ゲーム状態管理のインスタンス
  */
 public class DeathListener implements Listener {
 
-    /** メインクラスのインスタンス */
-    private final HardcoreSurvival plugin;
-
-    /** プレイヤーマネージャーのインスタンス */
-    private final PlayerManager playerManager;
+    /** ゲーム状態管理のインスタンス */
+    private final GameStateManager gameStateManager;
 
     /** コンストラクタ */
-    public DeathListener(HardcoreSurvival plugin, PlayerManager playerManager) {
-        this.plugin = plugin;
-        this.playerManager = playerManager;
+    public DeathListener(GameStateManager gameStateManager) {
+        this.gameStateManager = gameStateManager;
     }
 
     /**
@@ -38,10 +32,10 @@ public class DeathListener implements Listener {
         Player player = event.getEntity();
 
         // すでに観戦モードの場合は何もしない
-        if (this.playerManager.isPlayerInGhostMode(player)) {
+        if (this.gameStateManager.isPlayerInGhostMode(player)) {
             return;
         }
 
-        playerManager.setGhostMode(player, true);
+        gameStateManager.setGhostMode(player, true);
     }
 }

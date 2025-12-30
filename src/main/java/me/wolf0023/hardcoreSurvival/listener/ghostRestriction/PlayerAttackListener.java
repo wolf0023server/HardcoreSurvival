@@ -1,6 +1,6 @@
 package me.wolf0023.hardcoreSurvival.listener.ghostRestriction;
 
-import me.wolf0023.hardcoreSurvival.manager.PlayerManager;
+import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,16 +9,16 @@ import org.bukkit.entity.Player;
 
 /** プレイヤー攻撃制限リスナー 
  * 観戦モードのプレイヤーが他のエンティティを攻撃するのを防ぐ
- * @param playerManager プレイヤー管理クラスのインスタンス
+ * @param gameStateManager ゲーム状態管理クラスのインスタンス
  */
 public class PlayerAttackListener implements Listener {
 
-    /** プレイヤーマネージャーのインスタンス */
-    private final PlayerManager playerManager;
+    /** ゲーム状態管理のインスタンス */
+    private final GameStateManager gameStateManager;
 
     /** コンストラクタ */
-    public PlayerAttackListener(PlayerManager playerManager) {
-        this.playerManager = playerManager;
+    public PlayerAttackListener(GameStateManager gameStateManager) {
+        this.gameStateManager = gameStateManager;
     }
 
     /**
@@ -34,7 +34,7 @@ public class PlayerAttackListener implements Listener {
         Player player = (Player) event.getDamager();
 
         // プレイヤーが観戦モードの場合、攻撃をキャンセルする
-        if (this.playerManager.isPlayerInGhostMode(player)) {
+        if (this.gameStateManager.isPlayerInGhostMode(player)) {
             event.setCancelled(true);
         }
     }

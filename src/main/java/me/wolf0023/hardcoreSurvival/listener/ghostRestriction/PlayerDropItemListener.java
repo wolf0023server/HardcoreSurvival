@@ -1,6 +1,6 @@
 package me.wolf0023.hardcoreSurvival.listener.ghostRestriction;
 
-import me.wolf0023.hardcoreSurvival.manager.PlayerManager;
+import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,16 +10,16 @@ import org.bukkit.entity.Player;
 /**
  * プレイヤーがアイテムをドロップするイベントを処理するリスナー
  * 観戦モードのプレイヤーがアイテムをドロップできないようにする
- * @param playerManager プレイヤー管理クラスのインスタンス
+ * @param gameStateManager ゲーム状態管理クラスのインスタンス
  */
 public class PlayerDropItemListener implements Listener {
 
-    /** プレイヤーマネージャーのインスタンス */
-    private final PlayerManager playerManager;
+    /** ゲーム状態管理のインスタンス */
+    private final GameStateManager gameStateManager;
 
     /** コンストラクタ */
-    public PlayerDropItemListener(PlayerManager playerManager) {
-        this.playerManager = playerManager;
+    public PlayerDropItemListener(GameStateManager gameStateManager) {
+        this.gameStateManager = gameStateManager;
     }
 
     /**
@@ -31,7 +31,7 @@ public class PlayerDropItemListener implements Listener {
         Player player = event.getPlayer();
 
         // プレイヤーが観戦モードの場合、アイテムドロップをキャンセルする
-        if (this.playerManager.isPlayerInGhostMode(player)) {
+        if (this.gameStateManager.isPlayerInGhostMode(player)) {
             event.setCancelled(true);
         }
     }

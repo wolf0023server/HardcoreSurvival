@@ -1,6 +1,6 @@
 package me.wolf0023.hardcoreSurvival.listener.ghostRestriction;
 
-import me.wolf0023.hardcoreSurvival.manager.PlayerManager;
+import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,16 +14,16 @@ import java.util.EnumSet;
 /**
  * プレイヤーがインベントリを操作するイベントを処理するリスナー
  * 観戦モードのプレイヤーがコンテナを操作できないようにする
- * @param playerManager プレイヤー管理クラスのインスタンス
+ * @param gameStateManager ゲーム状態管理クラスのインスタンス
  */
 public class InventoryInteractListener implements Listener {
 
-    /** プレイヤーマネージャーのインスタンス */
-    private final PlayerManager playerManager;
+    /** ゲーム状態管理のインスタンス */
+    private final GameStateManager gameStateManager;
 
     /** コンストラクタ */
-    public InventoryInteractListener(PlayerManager playerManager) {
-        this.playerManager = playerManager;
+    public InventoryInteractListener(GameStateManager gameStateManager) {
+        this.gameStateManager = gameStateManager;
     }
 
     /** 許可するインベントリタイプのセット */
@@ -56,7 +56,7 @@ public class InventoryInteractListener implements Listener {
         Player player = (Player) event.getWhoClicked();
 
         // プレイヤーが観戦モードの場合、インベントリ操作をキャンセルする
-        if (this.playerManager.isPlayerInGhostMode(player)) {
+        if (this.gameStateManager.isPlayerInGhostMode(player)) {
             event.setCancelled(true);
         }
     }

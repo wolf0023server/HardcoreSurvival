@@ -1,6 +1,6 @@
 package me.wolf0023.hardcoreSurvival.listener.ghostRestriction;
 
-import me.wolf0023.hardcoreSurvival.manager.PlayerManager;
+import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,12 +16,12 @@ import java.util.EnumSet;
 /**
  * ブロック変更制限リスナー
  * 観戦モードのプレイヤーが特定のブロックを設置、破壊できないようにする
- * @param playerManager プレイヤー管理クラスのインスタンス
+ * @param gameStateManager ゲーム状態管理クラスのインスタンス
  */
 public class BlockModifyListener implements Listener {
 
-    /** プレイヤーマネージャーのインスタンス */
-    private final PlayerManager playerManager;
+    /** ゲーム状態管理クラスのインスタンス */
+    private final GameStateManager gameStateManager;
 
     /** 禁止するブロック */
     private static final Set<Material> PROHIBITED_BLOCKS = EnumSet.of(
@@ -53,8 +53,8 @@ public class BlockModifyListener implements Listener {
     );
 
     /** コンストラクタ */
-    public BlockModifyListener(PlayerManager playerManager) {
-        this.playerManager = playerManager;
+    public BlockModifyListener(GameStateManager gameStateManager) {
+        this.gameStateManager = gameStateManager;
     }
 
     /**
@@ -67,7 +67,7 @@ public class BlockModifyListener implements Listener {
         Material blockType = event.getBlock().getType();
 
         // プレイヤーが観戦モードの場合、特定のブロックの破壊をキャンセルする
-        if (this.playerManager.isPlayerInGhostMode(player)
+        if (this.gameStateManager.isPlayerInGhostMode(player)
             && PROHIBITED_BLOCKS.contains(blockType)) {
             event.setCancelled(true);
         }
@@ -83,7 +83,7 @@ public class BlockModifyListener implements Listener {
         Material blockType = event.getBlock().getType();
 
         // プレイヤーが観戦モードの場合、特定のブロックの設置をキャンセルする
-        if (this.playerManager.isPlayerInGhostMode(player)
+        if (this.gameStateManager.isPlayerInGhostMode(player)
             && PROHIBITED_BLOCKS.contains(blockType)) {
             event.setCancelled(true);
         }
@@ -98,7 +98,7 @@ public class BlockModifyListener implements Listener {
         Player player = event.getPlayer();
 
         // プレイヤーが観戦モードでない場合は処理を終了
-        if (!this.playerManager.isPlayerInGhostMode(player)) {
+        if (!this.gameStateManager.isPlayerInGhostMode(player)) {
             return;
         }
 
@@ -122,7 +122,7 @@ public class BlockModifyListener implements Listener {
     public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
         Player player = event.getPlayer();
 
-        if (this.playerManager.isPlayerInGhostMode(player)) {
+        if (this.gameStateManager.isPlayerInGhostMode(player)) {
             event.setCancelled(true);
         }
     }

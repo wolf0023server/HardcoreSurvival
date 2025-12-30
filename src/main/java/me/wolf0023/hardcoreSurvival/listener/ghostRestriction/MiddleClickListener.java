@@ -1,6 +1,6 @@
 package me.wolf0023.hardcoreSurvival.listener.ghostRestriction;
 
-import me.wolf0023.hardcoreSurvival.manager.PlayerManager;
+import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,16 +11,16 @@ import io.papermc.paper.event.player.PlayerPickEntityEvent;
 /**
  * プレイヤーのホイールクリック時のイベントを処理するリスナー
  * 観戦モードのプレイヤーがホイールクリックで、ブロックやエンティティを選択できないようにする
- * @param playerManager プレイヤー管理クラスのインスタンス
+ * @param gameStateManager ゲーム状態管理クラスのインスタンス
  */
 public class MiddleClickListener implements Listener {
 
-    /** プレイヤーマネージャーのインスタンス */
-    private final PlayerManager playerManager;
+    /** ゲーム状態管理のインスタンス */
+    private final GameStateManager gameStateManager;
 
     /** コンストラクタ */
-    public MiddleClickListener(PlayerManager playerManager) {
-        this.playerManager = playerManager;
+    public MiddleClickListener(GameStateManager gameStateManager) {
+        this.gameStateManager = gameStateManager;
     }
 
     /**
@@ -32,7 +32,7 @@ public class MiddleClickListener implements Listener {
         Player player = event.getPlayer();
 
         // プレイヤーが観戦モードの場合、ホイールクリックでのブロック選択をキャンセルする
-        if (this.playerManager.isPlayerInGhostMode(player)) {
+        if (this.gameStateManager.isPlayerInGhostMode(player)) {
             event.setCancelled(true);
         }
     }
@@ -46,7 +46,7 @@ public class MiddleClickListener implements Listener {
         Player player = event.getPlayer();
 
         // プレイヤーが観戦モードの場合、ホイールクリックでのエンティティ選択をキャンセルする
-        if (this.playerManager.isPlayerInGhostMode(player)) {
+        if (this.gameStateManager.isPlayerInGhostMode(player)) {
             event.setCancelled(true);
         }
     }

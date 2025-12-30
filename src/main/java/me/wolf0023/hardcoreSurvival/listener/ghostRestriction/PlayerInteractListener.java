@@ -1,6 +1,6 @@
 package me.wolf0023.hardcoreSurvival.listener.ghostRestriction;
 
-import me.wolf0023.hardcoreSurvival.manager.PlayerManager;
+import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,12 +15,12 @@ import java.util.EnumSet;
 /**
  * アイテムなどの使用制限リスナー
  * 観戦モードのプレイヤーが特定のアイテムを使用
- * @param playerManager プレイヤー管理クラスのインスタンス
+ * @param gameStateManager ゲーム状態管理クラスのインスタンス
  */
 public class PlayerInteractListener implements Listener {
 
-    /** プレイヤーマネージャーのインスタンス */
-    private final PlayerManager playerManager;
+    /** ゲーム状態管理のインスタンス */
+    private final GameStateManager gameStateManager;
 
     /** 使用を禁止するアイテム */
     private static final Set<Material> PROHIBITED_ITEMS = EnumSet.of(
@@ -51,8 +51,8 @@ public class PlayerInteractListener implements Listener {
     );
 
     /** コンストラクタ */
-    public PlayerInteractListener(PlayerManager playerManager) {
-        this.playerManager = playerManager;
+    public PlayerInteractListener(GameStateManager gameStateManager) {
+        this.gameStateManager = gameStateManager;
     }
 
     /**
@@ -75,7 +75,7 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        if (this.playerManager.isPlayerInGhostMode(player)
+        if (this.gameStateManager.isPlayerInGhostMode(player)
             && PROHIBITED_ITEMS.contains(itemType)) {
             event.setCancelled(true);
         }
@@ -101,7 +101,7 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        if (this.playerManager.isPlayerInGhostMode(player)
+        if (this.gameStateManager.isPlayerInGhostMode(player)
             && itemType.name().endsWith("_SPAWN_EGG")) {
             event.setCancelled(true);
         }
@@ -124,7 +124,7 @@ public class PlayerInteractListener implements Listener {
 
         // 右クリック(使用) の禁止
         // ただし、ブロックへの設置もできなくなる
-        if (this.playerManager.isPlayerInGhostMode(player)
+        if (this.gameStateManager.isPlayerInGhostMode(player)
             && PROHIBITED_BLOCKS.contains(blockType)
             && action == Action.RIGHT_CLICK_BLOCK) {
             event.setCancelled(true);

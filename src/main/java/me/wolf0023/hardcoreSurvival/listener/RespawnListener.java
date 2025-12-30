@@ -1,7 +1,6 @@
 package me.wolf0023.hardcoreSurvival.listener;
 
-import me.wolf0023.hardcoreSurvival.HardcoreSurvival;
-import me.wolf0023.hardcoreSurvival.manager.PlayerManager;
+import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,21 +10,16 @@ import org.bukkit.entity.Player;
 /**
  * プレイヤーのリスポーンイベントを処理するリスナー
  * リスポーン時に観戦モードの制約を適応する
- * @param plugin メインクラスのインスタンス
- * @param playerManager プレイヤーマネージャーのインスタンス
+ * @param gameStateManager ゲーム状態管理のインスタンス
  */
 public class RespawnListener implements Listener {
 
-    /** メインクラスのインスタンス */
-    private final HardcoreSurvival plugin;
-
-    /** プレイヤーマネージャーのインスタンス */
-    private final PlayerManager playerManager;
+    /** ゲーム状態管理のインスタンス */
+    private final GameStateManager gameStateManager;
 
     /** コンストラクタ */
-    public RespawnListener(HardcoreSurvival plugin, PlayerManager playerManager) {
-        this.plugin = plugin;
-        this.playerManager = playerManager;
+    public RespawnListener(GameStateManager gameStateManager) {
+        this.gameStateManager = gameStateManager;
     }
 
     /**
@@ -37,8 +31,8 @@ public class RespawnListener implements Listener {
         Player player = event.getPlayer();
 
         // プレイヤーが観戦モードの場合、制約を適応する
-        if (this.playerManager.isPlayerInGhostMode(player)) {
-            this.playerManager.applyGhostModeRestrictions(player);
+        if (this.gameStateManager.isPlayerInGhostMode(player)) {
+            this.gameStateManager.applyGhostModeRestrictions(player);
             player.sendMessage("あなたは、現在観戦モードです。");
         }
     }
