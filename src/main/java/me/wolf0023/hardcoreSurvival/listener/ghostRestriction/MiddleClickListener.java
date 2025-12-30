@@ -1,6 +1,7 @@
 package me.wolf0023.hardcoreSurvival.listener.ghostRestriction;
 
 import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
+import me.wolf0023.hardcoreSurvival.util.MessageUtil;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -42,6 +43,7 @@ public class MiddleClickListener implements Listener {
         // プレイヤーが観戦モードの場合、ホイールクリックでのブロック選択をキャンセルする
         if (this.gameStateManager.isPlayerInGhostMode(player)) {
             event.setCancelled(true);
+            MessageUtil.showGhostModeRestriction(player);
         }
     }
 
@@ -63,6 +65,7 @@ public class MiddleClickListener implements Listener {
         // プレイヤーが観戦モードの場合、ホイールクリックでのエンティティ選択をキャンセルする
         if (this.gameStateManager.isPlayerInGhostMode(player)) {
             event.setCancelled(true);
+            MessageUtil.showGhostModeRestriction(player);
         }
     }
 }

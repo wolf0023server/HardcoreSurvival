@@ -1,6 +1,7 @@
 package me.wolf0023.hardcoreSurvival.listener.ghostRestriction;
 
 import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
+import me.wolf0023.hardcoreSurvival.util.MessageUtil;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -78,6 +79,7 @@ public class PlayerInteractListener implements Listener {
         if (this.gameStateManager.isPlayerInGhostMode(player)
             && PROHIBITED_ITEMS.contains(itemType)) {
             event.setCancelled(true);
+            MessageUtil.showGhostModeRestriction(player);
         }
     }
 
@@ -104,6 +106,7 @@ public class PlayerInteractListener implements Listener {
         if (this.gameStateManager.isPlayerInGhostMode(player)
             && itemType.name().endsWith("_SPAWN_EGG")) {
             event.setCancelled(true);
+            MessageUtil.showGhostModeRestriction(player);
         }
     }
 
@@ -128,6 +131,7 @@ public class PlayerInteractListener implements Listener {
             && PROHIBITED_BLOCKS.contains(blockType)
             && action == Action.RIGHT_CLICK_BLOCK) {
             event.setCancelled(true);
+            MessageUtil.showGhostModeRestriction(player);
         }
     }
 }

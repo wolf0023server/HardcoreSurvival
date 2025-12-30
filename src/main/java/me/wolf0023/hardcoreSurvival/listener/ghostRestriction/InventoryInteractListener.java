@@ -1,6 +1,7 @@
 package me.wolf0023.hardcoreSurvival.listener.ghostRestriction;
 
 import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
+import me.wolf0023.hardcoreSurvival.util.MessageUtil;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,7 +48,7 @@ public class InventoryInteractListener implements Listener {
 
         // スロットのタイプを確認
         InventoryType inventoryType = event.getInventory().getType();
-        
+
         // プレイヤーのインベントリやクラフト関連のインベントリは許可
         if (ALLOWED_INVENTORY_TYPES.contains(inventoryType)) {
             return;
@@ -58,6 +59,7 @@ public class InventoryInteractListener implements Listener {
         // プレイヤーが観戦モードの場合、インベントリ操作をキャンセルする
         if (this.gameStateManager.isPlayerInGhostMode(player)) {
             event.setCancelled(true);
+            MessageUtil.showGhostModeRestriction(player);
         }
     }
 }

@@ -1,6 +1,7 @@
 package me.wolf0023.hardcoreSurvival.listener.ghostRestriction;
 
 import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
+import me.wolf0023.hardcoreSurvival.util.MessageUtil;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -56,6 +57,7 @@ public class EntityPlaceListener implements Listener {
         if (this.gameStateManager.isPlayerInGhostMode(player)
             && PLACEMENT_BANNED_ENTITIES.contains(entityType)) {
             event.setCancelled(true);
+            MessageUtil.showGhostModeRestriction(player);
         }
     }
 
@@ -77,6 +79,7 @@ public class EntityPlaceListener implements Listener {
         if (this.gameStateManager.isPlayerInGhostMode(player)
             && INTERACTION_PROTECTED_ENTITIES.contains(entityType)) {
             event.setCancelled(true);
+            MessageUtil.showGhostModeRestriction(player);
         }
     }
 
@@ -90,6 +93,7 @@ public class EntityPlaceListener implements Listener {
 
         if (this.gameStateManager.isPlayerInGhostMode(player)) {
             event.setCancelled(true);
+            MessageUtil.showGhostModeRestriction(player);
         }
     }
 }

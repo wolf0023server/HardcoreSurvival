@@ -1,6 +1,7 @@
 package me.wolf0023.hardcoreSurvival.listener.ghostRestriction;
 
 import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
+import me.wolf0023.hardcoreSurvival.util.MessageUtil;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -70,6 +71,7 @@ public class BlockModifyListener implements Listener {
         if (this.gameStateManager.isPlayerInGhostMode(player)
             && PROHIBITED_BLOCKS.contains(blockType)) {
             event.setCancelled(true);
+            MessageUtil.showGhostModeRestriction(player);
         }
     }
 
@@ -86,6 +88,7 @@ public class BlockModifyListener implements Listener {
         if (this.gameStateManager.isPlayerInGhostMode(player)
             && PROHIBITED_BLOCKS.contains(blockType)) {
             event.setCancelled(true);
+            MessageUtil.showGhostModeRestriction(player);
         }
     }
 
@@ -109,6 +112,7 @@ public class BlockModifyListener implements Listener {
         for (String suffix : COLORED_BLOCK_SUFFIXES) {
             if (blockName.endsWith(suffix)) {
                 event.setCancelled(true);
+                MessageUtil.showGhostModeRestriction(player);
                 return;
             }
         }
@@ -124,6 +128,7 @@ public class BlockModifyListener implements Listener {
 
         if (this.gameStateManager.isPlayerInGhostMode(player)) {
             event.setCancelled(true);
+            MessageUtil.showGhostModeRestriction(player);
         }
     }
 
@@ -140,6 +145,7 @@ public class BlockModifyListener implements Listener {
         if (isIncludeData
             && this.gameStateManager.isPlayerInGhostMode(player)) {
             event.setCancelled(true);
+            MessageUtil.showGhostModeRestriction(player);
         }
     }
 }

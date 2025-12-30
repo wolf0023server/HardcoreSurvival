@@ -1,6 +1,7 @@
 package me.wolf0023.hardcoreSurvival.listener;
 
 import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
+import me.wolf0023.hardcoreSurvival.util.MessageUtil;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,7 +36,7 @@ public class JoinListener implements Listener {
         // プレイヤーが観戦モードの場合、制約を適応する
         if (this.gameStateManager.isPlayerInGhostMode(player)) {
             this.gameStateManager.applyGhostModeRestrictions(player);
-            player.sendMessage("あなたは、現在観戦モードです。");
+            MessageUtil.sendGhostModeMessage(player);
         }
 
         // 初回参加キットを配布
