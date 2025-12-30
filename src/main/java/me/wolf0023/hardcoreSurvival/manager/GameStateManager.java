@@ -54,8 +54,8 @@ public class GameStateManager {
             return true;
         }
 
-        // OP権限を持っている場合は観戦モードの適応を除外する
-        if (player.isOp()) {
+        // 除外権限を持っている場合は観戦モードの適応を除外する
+        if (player.hasPermission("hcs.exempt")) {
             return true;
         }
 
@@ -81,29 +81,42 @@ public class GameStateManager {
     }
 
     /**
-     * プレイヤーの観戦モードを切り替える
+     * プレイヤーの観戦モードを有効にする
      * @param player 対象のプレイヤー
-     * @param isGhost 観戦モードにするかどうか
+     * @return 観戦モードが有効になった場合はtrue, すでに有効になっていた場合はfalse
      */
-    public void setGhostMode(Player player, boolean isGhost) {
-        // 観戦モードを解除する場合
-        if (!isGhost) {
-            this.removeGhostModeRestrictions(player);
-
-            // 死亡者リストから削除
-            this.gameStateRepository.removeDeadPlayer(player.getUniqueId());
-            return;
+    public boolean addGhostMode(Player player) {
+        // すでに観戦モードの場合は何もしない
+        if (this.isPlayerInGhostMode(player)) {
+            return false;
         }
 
         // 観戦モードの除外
         if (this.isExemptFromGhostMode(player)) {
-            return;
+            return false;
         }
 
         this.applyGhostModeRestrictions(player);
-
         // 死亡者リストに追加
         this.gameStateRepository.addDeadPlayer(player.getUniqueId());
+        return true;
+    }
+
+    /**
+     * プレイヤーの観戦モードを無効する
+     * @param player 対象のプレイヤー
+     * @return 観戦モードが無効になった場合はtrue, すでに無効になっていた場合はfalse
+     */
+    public boolean removeGhostMode(Player player) {
+        // すでに観戦モードでない場合は何もしない
+        if (!this.isPlayerInGhostMode(player)) {
+            return false;
+        }
+
+        this.removeGhostModeRestrictions(player);
+        // 死亡者リストから削除
+        this.gameStateRepository.removeDeadPlayer(player.getUniqueId());
+        return true;
     }
 
     /**
