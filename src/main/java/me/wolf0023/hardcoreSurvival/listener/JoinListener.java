@@ -1,6 +1,7 @@
 package me.wolf0023.hardcoreSurvival.listener;
 
 import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
+import me.wolf0023.hardcoreSurvival.manager.ScoreboardManager;
 import me.wolf0023.hardcoreSurvival.util.MessageUtil;
 
 import org.bukkit.event.EventHandler;
@@ -20,9 +21,13 @@ public class JoinListener implements Listener {
     /** ゲーム状態管理のインスタンス */
     private final GameStateManager gameStateManager;
 
+    /** スコアボード管理クラスのインスタンス */
+    private final ScoreboardManager scoreboardManager;
+
     /** コンストラクタ */
-    public JoinListener(GameStateManager gameStateManager) {
+    public JoinListener(GameStateManager gameStateManager, ScoreboardManager scoreboardManager) {
         this.gameStateManager = gameStateManager;
+        this.scoreboardManager = scoreboardManager;
     }
 
     /**
@@ -38,6 +43,9 @@ public class JoinListener implements Listener {
             this.gameStateManager.applyGhostModeRestrictions(player);
             MessageUtil.sendGhostModeMessage(player);
         }
+
+        // スコアボードの作成
+        this.scoreboardManager.createScoreboard(player);
 
         // 初回参加キットを配布
         this.gameStateManager.giveInitialKit(player);
