@@ -47,6 +47,8 @@ public final class HardcoreSurvival extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new RespawnListener(this.gameStateManager), this);
         // プレイヤー参加時の観戦モード制約の適応 および 初回参加キットの配布
         Bukkit.getPluginManager().registerEvents(new JoinListener(this.gameStateManager), this);
+        // エンダードラゴン討伐時のゲームクリア処理
+        Bukkit.getPluginManager().registerEvents(new DragonDefeatListener(this, this.gameStateManager), this);
 
         /* 観戦モード制限リスナーの登録 */
         // アイテムドロップ制限
