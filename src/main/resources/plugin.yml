@@ -17,3 +17,7 @@ commands:
     description: "ハードコアサバイバルのメインコマンド"
     usage: "/hcs <arg>"
     permission: hcs.admin
+  initialkit:
+    description: "初回参加キット配布用コマンド"
+    usage: "/initialkit or /ik or /kit"
+    aliases: [ik, kit]

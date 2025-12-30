@@ -137,16 +137,17 @@ public class GameStateManager {
     /**
      * プレイヤーに初回参加キットを配布する
      * @param player 対象のプレイヤー
+     * @return 配布に成功した場合はtrue、既に受け取っている場合やFREEフェーズの場合はfalse
      */
-    public void giveInitialKit(Player player) {
+    public boolean giveInitialKit(Player player) {
         // FREEフェーズの場合はキットを配布しない
         if (this.isGamePhase(GamePhase.FREE)) {
-            return;
+            return false;
         }
 
         // 既に受け取っている場合は何もしない
         if (this.hasPlayerReceivedInitialKit(player)) {
-            return;
+            return false;
         }
 
         // 初回参加キットの配布
@@ -157,6 +158,7 @@ public class GameStateManager {
 
         // 受取済みリストに追加
         this.gameStateRepository.addReceivedInitialKit(player.getUniqueId());
+        return true;
     }
 
     /**
