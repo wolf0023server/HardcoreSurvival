@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 /**
- * 全コマンドのクラス
+ * 運営用コマンドのクラス
  * <ul>
  *  <li>/hcs               - Hardcore Survivalのメインコマンド
  *  <li>/hcs start         - ゲームを開始する
