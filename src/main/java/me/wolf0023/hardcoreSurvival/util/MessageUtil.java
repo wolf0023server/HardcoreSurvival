@@ -5,6 +5,8 @@ import org.bukkit.entity.Player;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.title.TitlePart;
 
+import java.util.List;
+
 /**
  * メッセージユーティリティクラス
  * プレイヤーやサーバーに対して様々な形式でメッセージを送信するための静的メソッドを提供する
@@ -149,6 +151,30 @@ public class MessageUtil {
     public static void broadcastGameForceEndMessage(Server server) {
         String message = "&6[Broadcast] &f&lゲームが強制終了されました。";
         broadcastMessage(server, message);
+    }
+
+    /**
+     * 指定したプレイヤーに、コマンドのヘルプメッセージを送信する
+     * <br>
+     * 送り先: チャット欄
+     * @param player 送信先のプレイヤー
+     */
+    public static void sendCommandHelpMessage(Player player) {
+        List<String> helpMessages = List.of(
+            "",
+            "&6[Help] &f/hcs &7- このヘルプを表示します。",
+            "&6[Help] &f/hcs start &7- ゲームを開始します。",
+            "&6[Help] &f/hcs end &7- ゲームを終了します。",
+            "&6[Help] &f/hcs reset &7- ゲームをリセットします。",
+            "&6[Help] &f/hcs ghost &7- 自分のモードを表示します。",
+            "&6[Help] &f/hcs ghost enable &7- 自分の観戦モードを有効にします。",
+            "&6[Help] &f/hcs ghost disable &7- 自分の観戦モードを無効にします。",
+            ""
+        );
+
+        for (String message : helpMessages) {
+            sendMessage(player, message);
+        }
     }
 }
 

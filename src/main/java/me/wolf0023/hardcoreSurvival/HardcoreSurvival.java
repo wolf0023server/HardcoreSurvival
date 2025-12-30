@@ -4,6 +4,7 @@ import me.wolf0023.hardcoreSurvival.listener.*;
 import me.wolf0023.hardcoreSurvival.listener.ghostRestriction.*;
 import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
 import me.wolf0023.hardcoreSurvival.repository.GameStateRepository;
+import me.wolf0023.hardcoreSurvival.command.HCSCommand;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,6 +24,10 @@ public final class HardcoreSurvival extends JavaPlugin {
         // マネージャーとリポジトリの初期化
         this.gameStateRepository = new GameStateRepository(this);
         this.gameStateManager = new GameStateManager(gameStateRepository);
+
+        // コマンドの登録
+        this.getCommand("hcs").setExecutor(new HCSCommand(this, this.gameStateManager));
+        this.getCommand("hcs").setTabCompleter(new HCSCommand(this, this.gameStateManager));
 
         // イベントリスナーの登録
         this.registerEvents();

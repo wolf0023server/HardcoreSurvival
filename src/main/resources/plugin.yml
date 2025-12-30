@@ -4,3 +4,16 @@ main: me.wolf0023.hardcoreSurvival.HardcoreSurvival
 api-version: '1.21'
 author: wolf0023
 description: お正月イベント用。ハードコアサバイバル。
+permissions:
+  hcs.admin:
+    description: "運営用権限"
+    default: op
+    children:
+      hcs.exempt: true
+  hcs.exempt:
+    description: "ゲーム不参加用"
+commands:
+  hcs:
+    description: "ハードコアサバイバルのメインコマンド"
+    usage: "/hcs <arg>"
+    permission: hcs.admin
