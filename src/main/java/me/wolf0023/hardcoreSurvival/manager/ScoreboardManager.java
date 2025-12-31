@@ -73,6 +73,9 @@ public class ScoreboardManager {
             scoreboard.resetScores(entry);
         }
 
+        // 時間のフォーマット
+        String timePlayedFormatted = String.format("%.2f", (float) statistics.getTimePlayed() / SECONDS_IN_HOUR);
+
         // スコアボードの内容を更新
         objective.getScore("§6--------------------").setScore(15);
         objective.getScore("§r ").setScore(14);
@@ -86,7 +89,7 @@ public class ScoreboardManager {
         objective.getScore("§r§r§r§r§r ").setScore(6);
         objective.getScore("§bTimes Mined: §r" + statistics.getTimesMined()).setScore(5);
         objective.getScore("§r§r§r§r§r§r ").setScore(4);
-        objective.getScore("§bTime Played: §r" + (statistics.getTimePlayed() / SECONDS_IN_HOUR) + " h").setScore(3);
+        objective.getScore("§bTime Played: §r" + timePlayedFormatted + " h").setScore(3);
         objective.getScore("§r§r§r§r§r§r§r ").setScore(2);
         objective.getScore("§6--------------------§r").setScore(1);
     }
