@@ -3,6 +3,7 @@ package me.wolf0023.hardcoreSurvival.command;
 import me.wolf0023.hardcoreSurvival.HardcoreSurvival;
 import me.wolf0023.hardcoreSurvival.manager.GameStateManager;
 import me.wolf0023.hardcoreSurvival.util.MessageUtil;
+import me.wolf0023.hardcoreSurvival.manager.GamePhase;
 
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -92,6 +93,11 @@ public class HCSCommand implements CommandExecutor, TabCompleter {
                     MessageUtil.sendMessage(player, "&b[Info] &fゲーム状態がリセットされました。");
                     break;
 
+                case "status":
+                    boolean isGameRunning = this.gameStateManager.isGamePhase(GamePhase.HARDCORE);
+                    MessageUtil.sendMessage(player, "&b[Info] &fゲームの状態: " + (isGameRunning ? "&a開始中" : "&c未開始"));
+                    break;
+
                 case "ghost":
                     boolean isInGhostMode = this.gameStateManager.isPlayerInGhostMode(player);
                     MessageUtil.sendMessage(player, "&b[Info] &f観戦モードの状態: " + (isInGhostMode ? "&a有効" : "&c無効"));
@@ -152,7 +158,7 @@ public class HCSCommand implements CommandExecutor, TabCompleter {
         }
 
         if (args.length == 1) {
-            return List.of("start", "end", "reset", "ghost");
+            return List.of("start", "end", "reset", "status", "ghost");
         } else if (args.length == 2 && args[0].equalsIgnoreCase("ghost")) {
             return List.of("enable", "disable");
         }
